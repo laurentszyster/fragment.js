@@ -94,6 +94,9 @@ window.fragment.factory = function (elements) {
 window.fragment.$ = function () { 
 	var dollar =  new Fragment([undefined]);
 	return function $ (element) {
+		if (element.nodeType !== 1) {
+			throw "element must be an HTMLElement not " + (typeof element);
+		}
 		dollar.elements[0] = element;
 		return dollar;
 	};
