@@ -61,16 +61,16 @@ function hide() {
 $(notifications).on('click', hide);
 ```
 
-Use whatever alias seems fit to replace the '$' sign when instanciating the element wrapper with `fragment.$()`. 
+Note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
 
-Note how four distinct factories are used to create fragments from four distinct sources:
+Also, note how four distinct functions are used to create fragments from four distinct sources:
 
 - **fragment.factory**: any list of DOM elements
 - **fragment**: an HTML string
 - **qsa**: a DOM selector
 - **$**: a single DOM element
 
-Also, note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
+With a clean API - without function dispatch on argument type - `fragment.js` prevents all the subtle bugs possible with a confusing API and allows code analysis tools to do their job.
 
 Extensions
 ---
