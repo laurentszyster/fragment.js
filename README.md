@@ -2,12 +2,6 @@ fragment.js
 ===
 A convenient prototype for a fragment of DOM elements.
 
-Use Case
----
-You may not need JQuery.
-
-But you will need to manipulate DOM fragments with a minimum of conveniences.
-
 Synopsis
 ---
 Define your application's `Fragment` extensions, for instance add a chainable `on` method :
@@ -93,3 +87,10 @@ addClass(className, ...)
 removeClass(className, ...)
 toggleClass(className, force=undefined)
 ```
+
+Use Case
+---
+You may not need JQuery.
+
+But you will need to manipulate DOM fragments with a minimum of conveniences.
+
