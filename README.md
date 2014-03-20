@@ -2,11 +2,15 @@ fragment.js
 ===
 A convenient prototype for a fragment of DOM elements.
 
-It should work with IE8, but then ES5 shims are required.
+Use Case
+---
+You may not need JQuery.
+
+But you will need to manipulate DOM fragments with a minimum of conveniences.
 
 Synopsis
 ---
-Define your application's `Fragment` extension(s), add a chainable `on` method :
+Define your application's `Fragment` extensions, for instance add a chainable `on` method :
 
 ```javascript
 fragment.extend({
@@ -20,7 +24,7 @@ fragment.extend({
 });
 ```
 
-Use on fragments your application creates:
+Then use that convenience on HTML fragments your application creates from source by `fragment`:
 
 ```javascript
 var options = fragment(
@@ -32,7 +36,7 @@ var options = fragment(
     });
 ```
 
-Or on fragments selected from the document, with `qsa`:
+Or on fragments selected from the document by `qsa`:
 
 ```javascript
 qsa("button, input[type='button']").on(
@@ -41,7 +45,7 @@ qsa("button, input[type='button']").on(
     });
 ```
 
-Or on fragments factored from a list of elements:
+Or on fragments factored from a list of elements by the `fragment.factory`:
 
 ```javascript
 var h1 = fragment.factory(document.getElementsByTag('h1'));
@@ -50,7 +54,7 @@ h1.on('click', function(evt) {
 });
 ```
 
-And of course on a single element:
+And of course on a single element, using a conveniently named static wrapper created by `fragment.$`:
 
 ```javascript
 var $ = fragment.$(),
@@ -70,7 +74,9 @@ Also, note how four distinct functions are used to create fragments from four di
 - **qsa**: a DOM selector
 - **$**: a single DOM element
 
-With a clean API - without function dispatch on argument type - `fragment.js` prevents all the subtle bugs possible with a confusing API and allows code analysis tools to do their job.
+Without dispatch on arguments types and arrity (à la JQuery), the API of `fragment.js` avoids all the bugs made possible by such ambiguous interfaces.
+
+Last but not least, this API is final, there will be no addition besides extensions of the `Fragment` prototype defined by its applications.
 
 Extensions
 ---
@@ -87,10 +93,3 @@ addClass(className, ...)
 removeClass(className, ...)
 toggleClass(className, force=undefined)
 ```
-
-Use Case
----
-You may not need JQuery, Underscore or ES5 shims.
-
-But you will need to manipulate DOM fragments with a minimum of conveniences. 
-
