@@ -2,15 +2,11 @@ fragment.js
 ===
 A convenient prototype for a fragment of DOM elements.
 
-It adds to the browser's `window` a `fragment` function to create fragments from HTML strings plus a `qsa` convenience to select fragments in the document.
-
-Also included is an API to extend the `Fragment` prototype with chainable methods à la JQuery. And the most common conveniences required by any web applications are built-in: `on`, `fire`, `hide`, `show`, `enable`, `disable`, `addClass`, `removeClass` and `toggleClass`.
-
-It should work with IE8 but ES5 shims are required.
+It should work with IE8, but then ES5 shims are required.
 
 Synopsis
 ---
-Define your application's `Fragment` extension(s) :
+Define your application's `Fragment` extension(s), add a chainable `on` method :
 
 ```javascript
 fragment.extend({
@@ -36,12 +32,12 @@ var options = fragment(
     });
 ```
 
-Or on fragments selected from the document:
+Or on fragments selected from the document, with `qsa`:
 
 ```javascript
 qsa("button, input[type='button']").on(
     'click', function (evt) {
-        alert(this.outerHTML); 
+        this.disabled = true; 
     });
 ```
 
@@ -54,15 +50,27 @@ h1.on('click', function(evt) {
 });
 ```
 
-And of course on a single element (wraped in the same static `Fragment`):
+And of course on a single element:
 
 ```javascript
 var $ = fragment.$(),
     notifications = gebi('notifications');
-$(notifications).hide();
+function hide() {
+    this.style.display = 'none'; 
+}
+$(notifications).on('click', hide);
 ```
 
-Use whatever alias seems fit to replace the $ sign when instanciating the wrapper with `fragment.$`. Also, note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
+Use whatever alias seems fit to replace the '$' sign when instanciating the element wrapper with `fragment.$()`. 
+
+Note how four distinct factories are used to create fragments from four distinct sources:
+
+- **fragment.factory**: any list of DOM elements
+- **fragment**: an HTML string
+- **qsa**: a DOM selector
+- **$**: a single DOM element
+
+Also, note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
 
 Extensions
 ---
@@ -75,13 +83,14 @@ hide()
 show()
 enable()
 disable()
-addClass(className)
-removeClass(className)
-toggleClass(className)
+addClass(className, ...)
+removeClass(className, ...)
+toggleClass(className, force=undefined)
 ```
 
 Use Case
 ---
 You may not need JQuery, Underscore or ES5 shims.
 
-But you will need to manipulate DOM fragments with a minimum of conveniences.
+But you will need to manipulate DOM fragments with a minimum of conveniences. 
+
