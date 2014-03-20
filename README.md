@@ -45,7 +45,28 @@ qsa("button, input[type='button']").on(
     });
 ```
 
-The basic conveniences defined in `fragment_commons.js` are the nine most commonly required by web applications: 
+Or on fragments factored from a list of elements:
+
+```javascript
+var h1 = fragment.factory(document.getElementsByTag('h1'));
+h1.on('click', function(evt) {
+    alert(this.innerHTML);
+});
+```
+
+And of course on a single element (wraped in the same static `Fragment`):
+
+```javascript
+var $ = fragment.$(),
+    notifications = gebi('notifications');
+$(notifications).hide();
+```
+
+Use whatever alias seems fit to replace the $ sign when instanciating the wrapper with `fragment.$`. Also, note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
+
+Extensions
+---
+The basic conveniences defined in `fragment_commons.js` and bundled in `fragment-min.js` are the nine extensions most commonly required by web applications: 
 
 ```
 on(eventName, listener)
@@ -58,38 +79,6 @@ addClass(className)
 removeClass(className)
 toggleClass(className)
 ```
-
-Also, note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById` :
-
-```javascript
-window.gebi = document.getElementByInd.bind(document);
-```
-
-Because this:
-
-```javascript
-function hideAndDisable() {
-    this.style.display = 'none';
-    this.disabled = true;
-}
-hideAndDisable.apply(gebi('notifications'));
-```
-
-May quickly be more convenient than this:
-
-```javascript
-qsa('#notifications').hide().disable();
-```
-
-As it supports a more efficient convenience:
-
-```javascript
-fragment.extend({
-    hideAndDisable: hideAndDisable;
-});
-```
-
-Whenever there is the need to add a method to the `Fragment` prototype, it is best written as a function applied to a DOM element.
 
 Use Case
 ---

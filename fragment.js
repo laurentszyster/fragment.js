@@ -7,18 +7,12 @@ function Fragment (elements) {
 	this.elements = elements;
 }
 /**
- * Get the first element of the fragment
- */
-Fragment.prototype.element = function () {
-	return this.elements[0];
-}
-/**
- * Filter the elements of the fragment, chainable.
+ * Filter the elements of the fragment in place, chainable.
  */
 Fragment.prototype.filter = function (filter) {
 	this.elements = this.elements.filter(filter);
 	return this;
-}
+};
 /**
  * The first `Fragment` factory.
  *
@@ -31,7 +25,7 @@ Fragment.prototype.qsa = function (selector) {
 	}).reduce(function(a, b){
 		return a.concat(b);
 	}));
-}
+};
 /**
  * The second `Fragment` factory.
  *
@@ -88,13 +82,29 @@ window.fragment.extensions = function () {
 	return Object.keys(Fragment.prototype);
 };
 /**
- * The other Fragment factory ;-)
+ * Factor a new Fragment from elements, eventually slice if elements is not an Array.
+ */
+window.fragment.factory = function (elements) { 
+	return new Fragment(Array.isArray(elements) ? elements : slice.apply(elements)); 
+};
+/**
+ * Returns a function that wraps an element in the same static Fragment, avoiding the
+ * creation of an array each time the conveniences are used on a single element.
+ */
+window.fragment.$ = function () { 
+	var dollar =  new Fragment([undefined]);
+	return function $ (element) {
+		dollar.elements[0] = element;
+		return dollar;
+	};
+};
+/**
+ * The CSS selector Fragment factory ;-)
  */
 window.qsa = function (selector, root) {
 	return new Fragment(slice.apply(
 		(root === undefined ? document : root).querySelectorAll(selector)
 		));
 };
-
-// Something completely different, just a shortcut
+// just a shorthand
 window.gebi = document.getElementById.bind(document);
