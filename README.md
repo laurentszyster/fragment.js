@@ -2,9 +2,13 @@ fragment.js
 ===
 A convenient prototype for a fragment of DOM elements.
 
+This module provides an extensible convenience similar to JQuery's `$` but without the confusion introduced by [jQuery.fn.init](https://github.com/jquery/jquery/blob/1.11.0-rc1/src/core/init.js)'s dispatch on argument type, value and arrity.
+
+Note that `fragment.js` requires ES5 shims in IE8.
+
 Synopsis
 ---
-Define your application's `Fragment` extensions, for instance add a chainable `on` method :
+Add a chainable `on` method to `Fragment` prototype:
 
 ```javascript
 fragment.extend({
@@ -18,7 +22,9 @@ fragment.extend({
 });
 ```
 
-Then use that convenience on HTML fragments your application creates from source by `fragment`:
+Then use that convenience on instances of the `Fragment` prototype created with one of the four factories provided.
+
+From an HTML source string, using `fragment`:
 
 ```javascript
 var options = fragment(
@@ -30,7 +36,7 @@ var options = fragment(
     });
 ```
 
-Or on fragments selected from the document by `qsa`:
+Selected from the document by CSS selector, using `qsa`:
 
 ```javascript
 qsa("button, input[type='button']").on(
@@ -39,7 +45,7 @@ qsa("button, input[type='button']").on(
     });
 ```
 
-Or on fragments factored from a list of elements by the `fragment.factory`:
+From a list of elements, using `fragment.factory`:
 
 ```javascript
 var h1 = fragment.factory(document.getElementsByTag('h1'));
@@ -48,7 +54,7 @@ h1.on('click', function(evt) {
 });
 ```
 
-And of course on a single element, using a conveniently named static wrapper created by `fragment.$`:
+From a single element, using a conveniently named static wrapper created with `fragment.$`:
 
 ```javascript
 var $ = fragment.$(),
@@ -61,16 +67,21 @@ $(notifications).on('click', hide);
 
 Note that `fragment.js` defines `window.gebi` as a shorthand for `document.getElementById`.
 
-Also, note how four distinct functions are used to create fragments from four distinct sources:
+Besides its prototype extensions, `Fragment` provides two usefull methods: `filter` to filter elements without creating a new fragment; `qsa` to query all elements of a fragment by CSS selector and create a new fragment with the result.
 
-- **fragment.factory**: any list of DOM elements
-- **fragment**: an HTML string
-- **qsa**: a DOM selector
-- **$**: a single DOM element
+For instance, to filter all text input of class `Number` whose value parsed as integer is positive, do:
 
-Without dispatch on arguments types and arrity (à la JQuery), the API of `fragment.js` avoids all the bugs made possible by such ambiguous interfaces.
+```javascript
+var positiveInputs = qsa('input[type="text"].Number')
+    .filter(function (element) {
+        parseInt(element.value) > 0;
+    });
+```
 
-Last but not least, this API is final, there will be no addition besides extensions of the `Fragment` prototype defined by its applications.
+To create a new fragment for all `img` elements inside a given fragment `frag`, do:
+```
+var fragImages = frag.qsa('img');
+```
 
 Extensions
 ---
